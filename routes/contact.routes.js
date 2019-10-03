@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Joi = require('@hapi/joi');
 const contact = require('../mongodb/contacts');
+const admin = require('../middleware/isAdmin');
 
 
 //API to save new contacts
@@ -24,7 +25,7 @@ router.post('/new-contact', async (req,res) => {
 
 //APT to view contacts
 
-router.get('/view-contact', async (req,res) => {
+router.get('/view-contact', admin, async (req,res) => {
     let jSchema = Joi.object({
         email: Joi.string().required().min(3).max(150)
     });
@@ -33,7 +34,8 @@ router.get('/view-contact', async (req,res) => {
     let checkEmail = await contact.contactModel.findOne({ email: req.body.email});
     if(!checkEmail){ res.send('Provided email does not exist')}
     else{
-        return res.send(checkEmail);
+        let data = await contact.contactModel.find();
+        return res.send({msg: 'Record found', data: data});
     }
 });
 
