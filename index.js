@@ -7,3 +7,4 @@ const mongoose = require('mongoose');
 require('./controllers/database')(mongoose);
 require('./controllers/useRoutes')(app);
 
+app.listen(4000, () => console.log('Server running at port 4000'));

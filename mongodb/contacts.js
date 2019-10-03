@@ -6,6 +6,6 @@ let contactSchema = new mongoose.Schema({
     message: {type: String, required:true, min: 3, max:150}
 });
 
-let contactModel = new mongoose.model('contacts', contactModel);
+let contactModel = new mongoose.model('contacts', contactSchema);
 
 module.exports = {contactModel,contactSchema};
