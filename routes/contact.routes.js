@@ -35,7 +35,7 @@ router.get('/view-contact', admin, async (req,res) => {
     if(!checkEmail){ res.send('Provided email does not exist')}
     else{
         let data = await contact.contactModel.find();
-        return res.send({msg: 'Record found', data: data});
+        return res.send({msg: 'Welcome admin', data: data});
     }
 });
 

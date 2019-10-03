@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
-let userRegistrationSchema = new mongoose.Schema({
+let userRegisterSchema = new mongoose.Schema({
     firstname: {type:String, required: true, min: 3, max: 150},
     lastname: {type:String, required: true, min: 3, max: 150},
     newsLetterCheck: {type:Boolean, required: true},
@@ -12,6 +14,16 @@ let userRegistrationSchema = new mongoose.Schema({
     resetPasswordToken: {type:String},
     resetPasswordExpires: {type:Date},
     isAdmin: {type: Boolean},
-    recordDate: {type:Date.now(), required: true},
-    updateDate: {type:Date}
+    recordDate: {type:Date, default:Date.now},
+    updateDate: {type:Date},
+    avatar:{type:String}
 });
+
+userRegisterSchema.methods.userIdentity = function(){
+    let token = jwt.sign({_id: this.id}, config.get('jwtKey'));
+    return token;
+};
+
+let userRegisterModel = new mongoose.model('userRegister', userRegisterSchema);
+
+module.exports = {userRegisterSchema, userRegisterModel};
