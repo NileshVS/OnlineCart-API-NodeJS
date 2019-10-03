@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Joi = require('@hapi/joi');
 const contact = require('../mongodb/contacts');
-const admin = require('../middleware/isAdmin');
+const admin = require('../middleware/isAdminContacts');
 
 
 //API to save new contacts
@@ -30,9 +30,9 @@ router.get('/view-contact', admin, async (req,res) => {
         email: Joi.string().required().min(3).max(150)
     });
     let {error} = jSchema.validate(req.body);
-    if(error) { res.send(error.details[0].message);}
+    if(error) { return res.send(error.details[0].message);}
     let checkEmail = await contact.contactModel.findOne({ email: req.body.email});
-    if(!checkEmail){ res.send('Provided email does not exist')}
+    if(!checkEmail){ return res.send('Provided email does not exist')}
     else{
         let data = await contact.contactModel.find();
         return res.send({msg: 'Welcome admin', data: data});

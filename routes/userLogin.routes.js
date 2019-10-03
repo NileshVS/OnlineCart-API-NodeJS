@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const Joi = require('@hapi/joi');
-const jwt = require('jsonwebtoken');
 const userRegister = require('../mongodb/userRegistration');
+const isAdminGrant = require('../middleware/isAdminUserlogin');
+const auth = require('../middleware/authenticate');
 
+//API for user login
 router.get('/user-login', async (req,res) =>{
     let schema = Joi.object({
         userLogin:{
@@ -14,7 +16,7 @@ router.get('/user-login', async (req,res) =>{
     });
     let {error} = schema.validate(req.boy);
     if(error){ 
-        res.send(error.details[0].message);
+        return res.send(error.details[0].message);
     }
     let checkEmail = await userRegister.userRegisterModel.findOne({"userLogin.userEmail": req.body.userLogin.userEmail });
     if(!checkEmail){
@@ -29,6 +31,18 @@ router.get('/user-login', async (req,res) =>{
         res.header('x-auth-token', token).send('Login Successfull');
         res.end();
     }
+});
+
+//API to delete user with authentication and isAdmin middlewares
+router.delete('/delete-user/:id', [auth,isAdminGrant],async (req,res) => {
+    let checkUser = await userRegister.userRegisterModel.findByIdAndRemove(req.params.id);
+    if(!checkUser){
+        return res.send('ID does not exist');
+    }
+    res.send({
+        msg: `User ${checkUser.firstname} deleted from database`
+    });
+    
 })
 
 module.exports = router;
