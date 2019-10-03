@@ -3,9 +3,11 @@ const morgan = require('morgan')
 const contact = require('../routes/contact.routes');
 const userRegister = require('../routes/userRegister.routes');
 const userLogin = require('../routes/userLogin.routes');
+const resetReq = require('../routes/nodemailer.routes');
+const resetPass = require('../routes/resetPassword.routes');
 
 module.exports = (app) => {
     app.use(express.json());
     app.use(morgan('tiny'));
-    app.use('/api', [contact, userRegister, userLogin]);
+    app.use('/api', [contact, userRegister, userLogin, resetReq, resetPass]);
 }
