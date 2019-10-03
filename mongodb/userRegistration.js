@@ -20,7 +20,7 @@ let userRegisterSchema = new mongoose.Schema({
 });
 
 userRegisterSchema.methods.userIdentity = function(){
-    let token = jwt.sign({_id: this.id}, config.get('jwtKey'));
+    let token = jwt.sign({_id: this.id, isAdmin: this.isAdmin}, config.get('jwtKey'));
     return token;
 };
 
