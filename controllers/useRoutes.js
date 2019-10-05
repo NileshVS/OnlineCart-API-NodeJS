@@ -6,9 +6,14 @@ const userLogin = require('../routes/userLogin.routes');
 const resetReq = require('../routes/nodemailer.routes');
 const resetPass = require('../routes/resetPassword.routes');
 const allUsers = require('../routes/allUsers.routes');
+const addCategory = require('../routes/addCategory.routes');
+const allCategory = require('../routes/allCategory.routes');
+const findCatergory = require('../routes/findCategoryId.routes');
+const deleteCategory = require('../routes/deleteCategoryId.routes');
 
 module.exports = (app) => {
     app.use(express.json());
     app.use(morgan('tiny'));
-    app.use('/api', [contact, userRegister, userLogin, resetReq, resetPass, allUsers]);
+    app.use('/api', [contact, userRegister, userLogin, resetReq, resetPass, allUsers, addCategory,
+         allCategory,findCatergory, deleteCategory]);
 }
