@@ -10,10 +10,11 @@ const addCategory = require('../routes/addCategory.routes');
 const allCategory = require('../routes/allCategory.routes');
 const findCatergory = require('../routes/findCategoryId.routes');
 const deleteCategory = require('../routes/deleteCategoryId.routes');
+const addProduct =require('../routes/addProduct.routes');
 
 module.exports = (app) => {
     app.use(express.json());
     app.use(morgan('tiny'));
     app.use('/api', [contact, userRegister, userLogin, resetReq, resetPass, allUsers, addCategory,
-         allCategory,findCatergory, deleteCategory]);
+         allCategory,findCatergory, deleteCategory, addProduct]);
 }
