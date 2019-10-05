@@ -18,17 +18,19 @@ router.put('/update-product/:id', async (req,res) =>{
     let {error}= schema.validate(req.body);
     if(error){ return res.send(error.details[0].message);}
     let checkId = await product.prodModel.findById(req.params.id);
-    if(!checkId) { return res.send('Please enter correct ID');}
+    if(!checkId) { 
+        return res.send('Please enter correct ID');
+    }
         checkId.name = req.body.name;
-        checkId.image = req.body.image,
-        checkId.description = req.body.description,
-        checkId.price = req.body.price,
-        checkId.offerPrice = req.body.offerPrice,
-        checkId.isAvailable = req.body.isAvailable,
-        checkId.isTodayOffer = req.body.isTodayOffer,
-        checkId.category = req.body.category,
-        checkId.subCategory = req.body.subCategory,
-        checkId.updatedDate = Date.now()
+        checkId.image = req.body.image;
+        checkId.description = req.body.description;
+        checkId.price = req.body.price;
+        checkId.offerPrice = req.body.offerPrice;
+        checkId.isAvailable = req.body.isAvailable;
+        checkId.isTodayOffer = req.body.isTodayOffer;
+        checkId.category = req.body.category;
+        checkId.subCategory = req.body.subCategory;
+        checkId.updatedDate = Date.now();
         await checkId.save();
         res.send({msg: 'Product updated successfully', data: checkId});
     });
