@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Joi = require('@hapi/joi');
 const product = require('../mongodb/productSchema');
+const category = require('../mongodb/categorySchema');
+const subCategory = require('../mongodb/subCategorySchema');
 
 router.post('/add-new-product', async (req,res) =>{
     let schema = Joi.object({
@@ -15,6 +17,8 @@ router.post('/add-new-product', async (req,res) =>{
     });
     let {error}= schema.validate(req.body);
     if(error){ return res.send(error.details[0].message);}
+    let cat = await category.categoryModel.find({}).select(['-subCat']);
+    let subCat = await subCategory.subCatModel.find().select(["name"]); 
     let newProduct = await product.prodModel({
         name: req.body.name,
         image: req.body.image,
@@ -23,8 +27,8 @@ router.post('/add-new-product', async (req,res) =>{
         offerPrice: req.body.offerPrice,
         isAvailable: req.body.isAvailable,
         isTodayOffer: req.body.isTodayOffer,
-        category: req.body.category,
-        subCategory: req.body.subCategory
+        category: cat,
+        subCategory: subCat
     });
     await newProduct.save();
     res.send({msg: 'New product added successfully', data: newProduct});

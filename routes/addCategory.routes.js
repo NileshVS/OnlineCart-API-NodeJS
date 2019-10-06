@@ -14,6 +14,9 @@ router.post('/add-new-category', async (req,res) =>{
     if(error){ return res.send(error.details[0].message);}
     let subcatM = await subCat.subCatModel.find().select("name");
     // if(!subcatM) {return res.status(404).send('invalid subcategory id')}
+    let checkCategory = category.categoryModel.find({catName: req.body.catName});
+    // console.log(checkCategory);
+    if(!checkCategory) {return res.send({msg: 'Category already exist, please add a different category'});}
     let newCategory = await category.categoryModel({
         catName: req.body.catName,
         subCat:subcatM
