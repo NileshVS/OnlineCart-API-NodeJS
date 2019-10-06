@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
 let subCatSchema = new mongoose.Schema({
-    name:{type:String, min: 3, max:150, required:true}
+    
+    name:{type:String,required:true}
 });
 
-let subCatModel = new mongoose.model('subCategory', subCatSchema);
+let subCatModel = mongoose.model('subCategory', subCatSchema);
 
 module.exports = {subCatSchema,subCatModel};

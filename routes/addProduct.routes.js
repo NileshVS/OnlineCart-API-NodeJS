@@ -11,9 +11,7 @@ router.post('/add-new-product', async (req,res) =>{
         price: Joi.number().required().min(3),
         offerPrice: Joi.number().required().min(3),
         isAvailable: Joi.boolean().required(),
-        isTodayOffer: Joi.boolean().required(),
-        category: Joi.string().required().min(3).max(150),
-        subCategory: Joi.string().required().min(3).max(150)
+        isTodayOffer: Joi.boolean().required()
     });
     let {error}= schema.validate(req.body);
     if(error){ return res.send(error.details[0].message);}
