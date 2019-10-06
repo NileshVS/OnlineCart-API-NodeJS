@@ -17,6 +17,6 @@ let prodSchema = new mongoose.Schema({
     updatedDate: {type: Date}
 });
 
-let prodModel = new mongoose.model('product', prodSchema);
+let prodModel = mongoose.model('product', prodSchema);
 
 module.exports = {prodSchema,prodModel};

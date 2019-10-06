@@ -5,6 +5,6 @@ let useCartSchema = new mongoose.Schema({
     cartItem: {type: mongoose.Schema.Types.ObjectId, ref:'cart'}
 });
 
-let useCartModel = new mongoose.model('useCart', useCartSchema);
+let useCartModel = mongoose.model('useCart', useCartSchema);
 
 module.exports = {useCartSchema, useCartModel};

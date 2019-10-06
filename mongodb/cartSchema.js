@@ -11,6 +11,6 @@ let cartSchema = new mongoose.Schema({
     updatedDate: {type: Date}
 });
 
-let cartModel = new mongoose.model('cart', cartSchema);
+let cartModel = mongoose.model('cart', cartSchema);
 
 module.exports = {cartSchema, cartModel};

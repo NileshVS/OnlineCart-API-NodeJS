@@ -24,6 +24,6 @@ userRegisterSchema.methods.userIdentity = function(){
     return token;
 };
 
-let userRegisterModel = new mongoose.model('userRegister', userRegisterSchema);
+let userRegisterModel = mongoose.model('userRegister', userRegisterSchema);
 
 module.exports = {userRegisterSchema, userRegisterModel};
