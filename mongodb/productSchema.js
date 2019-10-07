@@ -10,8 +10,8 @@ let prodSchema = new mongoose.Schema({
     offerPrice: {type:Number, min: 3, required:true},
     isAvailable: {type:Boolean,  required:true},
     isTodayOffer: {type:Boolean,  required:true},
-    category: [category.categorySchema],
-    subCategory: [subCategory.subCatSchema],
+    category: {type:String},
+    subCategory: {type:String, required:true},
     isAdmin:{type:Boolean},
     recordDate: {type:Date, default: Date.now},
     updatedDate: {type: Date}
