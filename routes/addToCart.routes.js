@@ -2,7 +2,6 @@ const  express = require('express');
 const router = express.Router();
 const Joi = require('@hapi/joi');
 const cart = require('../mongodb/cartSchema');
-const user = require('../mongodb/userRegistration');
 const product = require('../mongodb/productSchema');
 
 router.post('/add-to-cart', async (req,res) => {
