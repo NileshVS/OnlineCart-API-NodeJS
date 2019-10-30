@@ -16,12 +16,13 @@ const deleteProduct = require('../routes/removeProduct.routes');
 const allProducts = require('../routes/allProducts.routes');
 const productById = require('../routes/productById.routes');
 const productPagination = require('../routes/prodcutPagination.routes');
-const addSubCat = require('../routes/addSubCat.routes')
+const addSubCat = require('../routes/addSubCat.routes');
+const addToCart = require('../routes/addToCart.routes');
 
 module.exports = (app) => {
     app.use(express.json());
     app.use(morgan('tiny'));
     app.use('/api', [contact, userRegister, userLogin, resetReq, resetPass, allUsers, addCategory,
          allCategory,findCatergory, deleteCategory, addProduct, updateProduct, deleteProduct, allProducts,
-        productById, productPagination, addSubCat]);
+        productById, productPagination, addSubCat, addToCart]);
 }

@@ -19,7 +19,7 @@ router.post('/add-new-product', async (req,res) =>{
     let {error}= schema.validate(req.body);
     if(error){ return res.send(error.details[0].message);}
     let cat = await subCategory.subCatModel.findOne({name: req.body.subCategory}).select("catName");
-    console.log(cat);
+    // console.log(cat);
     // let subCat = await subCategory.subCatModel.find().select(["name"]); 
     let newProduct = await product.prodModel({
         name: req.body.name,
