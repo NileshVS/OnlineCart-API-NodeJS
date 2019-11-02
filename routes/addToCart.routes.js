@@ -3,9 +3,15 @@ const router = express.Router();
 const Joi = require('@hapi/joi');
 const cart = require('../mongodb/cartSchema');
 const product = require('../mongodb/productSchema');
+const auth = require('../middleware/authenticate');
+const user = require('../mongodb/userRegistration');
 
-router.post('/add-to-cart', async (req,res) => {
-
+router.post('/add-to-cart', auth,async (req,res) => {
+    let checkLogin = await user.userRegisterModel.findById(req.decodedToken._id).select("userLogin.userEmail");
+    console.log(checkLogin);
+    if(!checkLogin){
+        return res.send('Please login first!');
+    } 
     let schema = Joi.object({
         cartDetails:{
             prodId: Joi.string().required(),
@@ -20,12 +26,6 @@ router.post('/add-to-cart', async (req,res) => {
 
     try{
         
-        // let userEml = await user.userRegisterModel.findById(req.body.cartDetails.usrId).select("userLogin.userPassword");
-
-        // if(!userEml){
-        //     return res.send('User ID does not exist!');
-        // }
-
         let prod = await product.prodModel.findById(req.body.cartDetails.prodId);
 
         if(!prod){
@@ -37,7 +37,8 @@ router.post('/add-to-cart', async (req,res) => {
             name: prod.name,
             price: prod.price,
             quantity: req.body.cartDetails.quantity,
-            totalPrice: (prod.price * req.body.cartDetails.quantity)
+            totalPrice: (prod.price * req.body.cartDetails.quantity),
+            userEmail: checkLogin.userLogin.userEmail
         })
     
         let result = await newItem.save();

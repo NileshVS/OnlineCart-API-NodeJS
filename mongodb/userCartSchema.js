@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 const cartSchema = require('./cartSchema');
-
-let useCartSchema = new mongoose.Schema({
+let userCartSchema = new mongoose.Schema({
     userEmail:{type:String, min: 3, max:150, required:true},
-    cartItem: {type: cartSchema, required: true}
+    cartItem: {type: cartSchema.cartSchema, required: true}
 });
 
-let useCartModel = mongoose.model('useCart', useCartSchema);
+let userCartModel = mongoose.model('userCart', userCartSchema);
 
-module.exports = {useCartSchema, useCartModel};
+module.exports = {userCartSchema, userCartModel};

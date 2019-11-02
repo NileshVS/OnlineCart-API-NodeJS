@@ -21,11 +21,13 @@ const addToCart = require('../routes/addToCart.routes');
 const offerProducts = require('../routes/offerProduct.routes');
 const latestProducts = require('../routes/latestProduct.routes');
 const updateCart = require('../routes/updateCart.routes');
-
+const cartByUsers = require('../routes/cartByUser.routes');
+const allUserCart = require('../routes/allUserCart.routes');
 module.exports = (app) => {
     app.use(express.json());
     app.use(morgan('tiny'));
     app.use('/api', [contact, userRegister, userLogin, resetReq, resetPass, allUsers, addCategory,
          allCategory,findCatergory, deleteCategory, addProduct, updateProduct, deleteProduct, allProducts,
-        productById, productPagination, addSubCat, addToCart, offerProducts, latestProducts, updateCart]);
+        productById, productPagination, addSubCat, addToCart, offerProducts, latestProducts, updateCart, cartByUsers,
+        allUserCart]);
 }
