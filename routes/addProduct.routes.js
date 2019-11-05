@@ -7,11 +7,11 @@ const subCategory = require('../mongodb/subCategorySchema');
 
 router.post('/add-new-product', async (req,res) =>{
     let schema = Joi.object({
-        name: Joi.string().required().min(3).max(150),
-        image: Joi.string().required().min(3).max(150),
-        description: Joi.string().required().min(3).max(250),
-        price: Joi.number().required().min(3),
-        offerPrice: Joi.number().required().min(3),
+        name: Joi.string().required(),
+        image: Joi.string().required(),
+        description: Joi.string().required(),
+        price: Joi.number().required(),
+        offerPrice: Joi.number().required(),
         isAvailable: Joi.boolean().required(),
         isTodayOffer: Joi.boolean().required(),
         subCategory: Joi.string().required()

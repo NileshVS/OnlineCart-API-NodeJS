@@ -3,11 +3,11 @@ const category = require('../mongodb/categorySchema');
 const subCategory = require('../mongodb/subCategorySchema');
 
 let prodSchema = new mongoose.Schema({
-    name: {type:String, min: 3, max:150, required: true},
-    image: {type:String, min: 3, max:350, required:true},
-    description: {type: String, min:3, max: 150, required: true},
-    price: {type:Number, min: 3, required:true},
-    offerPrice: {type:Number, min: 3, required:true},
+    name: {type:String, min: 3, required: true},
+    image: {type:String, min: 3, required:true},
+    description: {type: String, min:3, required: true},
+    price: {type:Number, required:true},
+    offerPrice: {type:Number, required:true},
     isAvailable: {type:Boolean,  required:true},
     isTodayOffer: {type:Boolean,  required:true},
     category: {type:String},

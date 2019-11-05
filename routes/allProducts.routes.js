@@ -7,7 +7,7 @@ router.get('/all-product/', async (req,res) =>{
     if(!checkId) { 
         return res.send('Something went wrong');
     }
-    return res.send({msg:'Following are the records ', data: checkId});
+    return res.send(checkId);
 });
 
 module.exports = router;
