@@ -2,9 +2,13 @@ const mongoose = require('mongoose');
 const category = require('../mongodb/categorySchema');
 const subCategory = require('../mongodb/subCategorySchema');
 
+let imgSchema = new mongoose.Schema({
+		imgUrl: {type: String}
+});
+
 let prodSchema = new mongoose.Schema({
     name: {type:String, min: 3, required: true},
-    image: {type:String, min: 3, required:true},
+    image: {type: imgSchema},
     description: {type: String, min:3, required: true},
     price: {type:Number, required:true},
     offerPrice: {type:Number, required:true},
@@ -17,6 +21,8 @@ let prodSchema = new mongoose.Schema({
     updatedDate: {type: Date}
 });
 
+let imageModel = new mongoose.model('images', imgSchema);
+
 let prodModel = mongoose.model('product', prodSchema);
 
-module.exports = {prodSchema,prodModel};
+module.exports = {prodSchema,prodModel, imageModel, imgSchema};

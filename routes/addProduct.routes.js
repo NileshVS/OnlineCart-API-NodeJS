@@ -33,7 +33,7 @@ let upload = multer({
 });
 
 
-router.post('/add-new-product', upload.single('image') ,async (req,res) =>{
+router.post('/add-new-product', async (req,res) =>{
     console.log(req.file);
     let schema = Joi.object({
         name: Joi.string().required(),
@@ -49,9 +49,10 @@ router.post('/add-new-product', upload.single('image') ,async (req,res) =>{
     let cat = await subCategory.subCatModel.findOne({name: req.body.subCategory}).select("catName");
     // console.log(cat);
     // let subCat = await subCategory.subCatModel.find().select(["name"]); 
+	let img = await product.imageModel.findOne({_id: req.body.imageID});
     let newProduct = await product.prodModel({
         name: req.body.name,
-        image: imgPort+ '/uploads/' + req.file.filename,
+        image: img.image,
         description: req.body.description,
         price: req.body.price,
         offerPrice: req.body.offerPrice,
@@ -63,5 +64,14 @@ router.post('/add-new-product', upload.single('image') ,async (req,res) =>{
     await newProduct.save();
     res.send({msg: 'New product added successfully', data: newProduct});
 });
+
+router.post('/image-upload', upload.single('imgUrl'), async (req,res)=> {
+	let newImage = new product.imageModel({
+		imgUrl: imgPort+ '/uploads/' + req.file.filename
+	} )
+	
+	await newImage.save();
+	res.send(newImage);
+} );
 
 module.exports = router;
