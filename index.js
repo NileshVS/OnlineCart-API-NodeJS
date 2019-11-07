@@ -12,6 +12,7 @@ require('./controllers/useRoutes')(app);
 if(!config.get('jwtKey')){
     console.log('Secret key is not set, exiting...');
     process.exit(1);
-}
+};
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 app.listen(4000, () => console.log('Server running at port 4000'));

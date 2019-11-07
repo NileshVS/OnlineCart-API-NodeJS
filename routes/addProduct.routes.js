@@ -3,13 +3,14 @@ const router = express.Router();
 const Joi = require('@hapi/joi');
 const multer = require('multer');
 const product = require('../mongodb/productSchema');
+const path = require('path');
 // const category = require('../mongodb/categorySchema');
 const subCategory = require('../mongodb/subCategorySchema');
 let imgPort = 'http://localhost:4000';
-
+let pathDir = path.join(__dirname, '../uploads')
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './uploads/');
+        cb(null, pathDir);
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + file.originalname);
@@ -33,6 +34,7 @@ let upload = multer({
 
 
 router.post('/add-new-product', upload.single('image') ,async (req,res) =>{
+    console.log(req.file);
     let schema = Joi.object({
         name: Joi.string().required(),
         description: Joi.string().required(),
