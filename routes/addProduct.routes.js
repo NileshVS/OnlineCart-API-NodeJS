@@ -1,14 +1,40 @@
 const express = require('express');
 const router = express.Router();
 const Joi = require('@hapi/joi');
+const multer = require('multer');
 const product = require('../mongodb/productSchema');
 // const category = require('../mongodb/categorySchema');
 const subCategory = require('../mongodb/subCategorySchema');
+let imgPort = 'http://localhost:4000';
 
-router.post('/add-new-product', async (req,res) =>{
+let storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + file.originalname);
+    },
+});
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+
+let upload = multer({
+    storage: storage,
+     limits: {
+        fileSize: 1024 * 1024 * 5
+    },
+    fileFilter: fileFilter
+});
+
+
+router.post('/add-new-product', upload.single('image') ,async (req,res) =>{
     let schema = Joi.object({
         name: Joi.string().required(),
-        image: Joi.string().required(),
         description: Joi.string().required(),
         price: Joi.number().required(),
         offerPrice: Joi.number().required(),
@@ -23,7 +49,7 @@ router.post('/add-new-product', async (req,res) =>{
     // let subCat = await subCategory.subCatModel.find().select(["name"]); 
     let newProduct = await product.prodModel({
         name: req.body.name,
-        image: req.body.image,
+        image: imgPort+ '/uploads/' + req.file.filename,
         description: req.body.description,
         price: req.body.price,
         offerPrice: req.body.offerPrice,

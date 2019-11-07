@@ -3,7 +3,7 @@ const router = express.Router();
 const product = require('../mongodb/productSchema');
 
 router.get('/all-product/', async (req,res) =>{
-    let checkId = await product.prodModel.find();
+    let checkId = await product.prodModel.find().sort("-recordDate");
     if(!checkId) { 
         return res.send('Something went wrong');
     }

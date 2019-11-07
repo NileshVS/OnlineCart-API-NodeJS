@@ -1,0 +1,6 @@
+{"_id":{"$oid":"5dba873858b61f0720d0a7d6"},"name":"Mobile","catName":"Electronics","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5dba873f58b61f0720d0a7d7"},"name":"TV","catName":"Electronics","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5dba874658b61f0720d0a7d8"},"name":"Laptop","catName":"Electronics","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5dba875358b61f0720d0a7d9"},"name":"Shirt","catName":"Clothing","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5dba875b58b61f0720d0a7da"},"name":"T-shirt","catName":"Clothing","__v":{"$numberInt":"0"}}
+{"_id":{"$oid":"5dba875f58b61f0720d0a7db"},"name":"Jeans","catName":"Clothing","__v":{"$numberInt":"0"}}
