@@ -8,7 +8,7 @@ let imgSchema = new mongoose.Schema({
 
 let prodSchema = new mongoose.Schema({
     name: {type:String, min: 3, required: true},
-    image: {type: imgSchema},
+    productImage: {type: String, required: true},
     description: {type: String, min:3, required: true},
     price: {type:Number, required:true},
     offerPrice: {type:Number, required:true},
@@ -18,10 +18,10 @@ let prodSchema = new mongoose.Schema({
     subCategory: {type:String, required:true},
     isAdmin:{type:Boolean},
     recordDate: {type:Date, default: Date.now},
-    updatedDate: {type: Date}
+    updatedDate: {type: Date, default: Date.now}
 });
 
-let imageModel = new mongoose.model('images', imgSchema);
+let imageModel = mongoose.model('images', imgSchema);
 
 let prodModel = mongoose.model('product', prodSchema);
 

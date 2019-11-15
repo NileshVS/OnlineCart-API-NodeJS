@@ -5,15 +5,13 @@ const product = require('../mongodb/productSchema');
 
 router.put('/update-product/:id', async (req,res) =>{
     let schema = Joi.object({
-        name: Joi.string().required().min(3).max(150),
-        image: Joi.string().required().min(3).max(150),
-        description: Joi.string().required().min(3).max(250),
-        price: Joi.number().required().min(3),
-        offerPrice: Joi.number().required().min(3),
+        name: Joi.string().required(),
+        description: Joi.string().required(),
+        price: Joi.number().required(),
+        offerPrice: Joi.number().required(),
         isAvailable: Joi.boolean().required(),
         isTodayOffer: Joi.boolean().required(),
-        category: Joi.string().required().min(3).max(150),
-        subCategory: Joi.string().required().min(3).max(150)
+        subCategory: Joi.string().required()
     });
     let {error}= schema.validate(req.body);
     if(error){ return res.send(error.details[0].message);}
@@ -22,13 +20,11 @@ router.put('/update-product/:id', async (req,res) =>{
         return res.send('Please enter correct ID');
     }
         checkId.name = req.body.name;
-        checkId.image = req.body.image;
         checkId.description = req.body.description;
         checkId.price = req.body.price;
         checkId.offerPrice = req.body.offerPrice;
         checkId.isAvailable = req.body.isAvailable;
         checkId.isTodayOffer = req.body.isTodayOffer;
-        checkId.category = req.body.category;
         checkId.subCategory = req.body.subCategory;
         checkId.updatedDate = Date.now();
         await checkId.save();

@@ -34,9 +34,10 @@ let upload = multer({
 
 
 router.post('/add-new-product', async (req,res) =>{
-    console.log(req.file);
+    // console.log(req.file);
     let schema = Joi.object({
         name: Joi.string().required(),
+        productImage: Joi.string().required(),
         description: Joi.string().required(),
         price: Joi.number().required(),
         offerPrice: Joi.number().required(),
@@ -47,18 +48,18 @@ router.post('/add-new-product', async (req,res) =>{
     let {error}= schema.validate(req.body);
     if(error){ return res.send(error.details[0].message);}
     let cat = await subCategory.subCatModel.findOne({name: req.body.subCategory}).select("catName");
-    // console.log(cat);
+    console.log(cat);
     // let subCat = await subCategory.subCatModel.find().select(["name"]); 
 	let img = await product.imageModel.findOne({_id: req.body.imageID});
     let newProduct = await product.prodModel({
         name: req.body.name,
-        image: img.image,
+        productImage: req.body.productImage,
         description: req.body.description,
         price: req.body.price,
         offerPrice: req.body.offerPrice,
         isAvailable: req.body.isAvailable,
         isTodayOffer: req.body.isTodayOffer,
-        category: cat,
+        category: cat.catName,
         subCategory: req.body.subCategory
     });
     await newProduct.save();
@@ -71,7 +72,21 @@ router.post('/image-upload', upload.single('imgUrl'), async (req,res)=> {
 	} )
 	
 	await newImage.save();
-	res.send(newImage);
+	res.send(JSON.stringify(newImage.imgUrl));
 } );
+
+router.get('/image-retrieve', async (req,res) => {
+    let links = await product.imageModel.find();
+    res.send(links);
+});
+
+router.delete('/image-delete/:image', async (req,res) => {
+    let data=await product.imageModel.findOneAndRemove({imgUrl: req.params.image});
+    if(!data){return res.send('No matching data found to delete');}
+    res.send({
+        msg: 'Deleted',
+        data: data 
+    })
+});
 
 module.exports = router;

@@ -15,11 +15,10 @@ router.post('/add-new-category', async (req,res) =>{
     let subcatM = await subCat.subCatModel.find({catName: req.body.catName}).select("name");
     console.log(subcatM);
     let newCategory = await category.categoryModel({
-        catName: req.body.catName,
-        subCat: subcatM
+        catName: req.body.catName
     });
     await newCategory.save();
-    res.send({msg: 'New category added successfully', data: newCategory});
+    res.send(newCategory);
 }
 catch(ex) {
     res.send(ex.message);
