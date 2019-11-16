@@ -15,12 +15,12 @@ router.post('/reset-request', async (req,res) =>{
     let {error} = schema.validate(req.body);
     if(error){ return res.send(error.details[0].message);}
     let checkMail = await register.userRegisterModel.findOne({"userLogin.userEmail": req.body.userLogin.userEmail});
-    if(!checkMail){ return res.send('Email ID not found');}
+    if(!checkMail){ return alert('Email ID not found');}
     let token = crypto.randomBytes(10).toString('hex');
     checkMail.resetPasswordToken=token; 
     checkMail.resetPasswordExpires = Date.now() + 3600000; //1 hour +
     await checkMail.save();
-    res.send('Please check your mail for further instructions');
+    alert('Please check your mail for further instructions');
 
     let transporter = mailer.createTransport({
          host: 'smtp.ethereal.email',

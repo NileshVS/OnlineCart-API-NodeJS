@@ -7,7 +7,7 @@ const isAdminGrant = require('../middleware/isAdminUserlogin');
 const auth = require('../middleware/authenticate');
 
 //API for user login
-router.get('/user-login', async (req,res) =>{
+router.post('/user-login', async (req,res) =>{
     let schema = Joi.object({
         userLogin:{
             userEmail: Joi.string().required().min(9).max(150),
@@ -28,8 +28,7 @@ router.get('/user-login', async (req,res) =>{
     }
     else{
         let token = checkEmail.userIdentity();
-        res.header('x-auth-token', token).send('Login Successfull');
-        res.end();
+        res.header('x-auth-token', token).send('Login Successful');       
     }
 });
 

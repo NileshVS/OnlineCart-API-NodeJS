@@ -7,11 +7,12 @@ const userRegister = require('../mongodb/userRegistration');
 //API to add new users
 
 router.post('/new-user-register', async (req,res) => {
-    let {error} = joiValidation(req.body);
-    if(error){ res.send(error.details[0].message);}
+    try{
+        let {error} = joiValidation(req.body);
+    if(error){ return res.send(error.details[0].message);}
     let checkEmailExits = await userRegister.userRegisterModel.findOne({"userLogin.userEmail": req.body.userLogin.userEmail});
-    if(checkEmailExits){ res.send('User already exists');}
-    else{
+    if(checkEmailExits){ return res.send('User already exists');}
+    
         let newUser = userRegister.userRegisterModel({
             firstname: req.body.firstname,
             lastname: req.body.lastname,
@@ -27,6 +28,11 @@ router.post('/new-user-register', async (req,res) => {
             details: savedUser
         });
     }
+    catch(ex){
+        res.send(ex.message);
+    }
+    
+    
     
 });
 
