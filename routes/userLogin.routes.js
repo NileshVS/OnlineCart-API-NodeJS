@@ -20,15 +20,16 @@ router.post('/user-login', async (req,res) =>{
     }
     let checkEmail = await userRegister.userRegisterModel.findOne({"userLogin.userEmail": req.body.userLogin.userEmail });
     if(!checkEmail){
-        return res.send('Invalid Credentials! Try again');
+        return res.send({msg:'Invalid Credentials! Try again'});
     }
     let checkPass = await bcrypt.compare( req.body.userLogin.userPassword, checkEmail.userLogin.userPassword);
     if(!checkPass){
-        return res.send('Invalid Credentials! Try again');
+        return res.send({msg:'Invalid Credentials! Try again'});
     }
     else{
         let token = checkEmail.userIdentity();
-        res.header('x-auth-token', token).send('Login Successful');       
+        // res.header('x-auth-token', token).send('Login Successful');
+        res.status(200).send({token: token});       
     }
 });
 

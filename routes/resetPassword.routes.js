@@ -4,7 +4,7 @@ const register = require('../mongodb/userRegistration');
 const Joi = require('@hapi/joi');
 const bcrypt = require('bcrypt');
 
-router.get('/reset-password/:token', async (req,res) =>{
+router.post('/reset-password/:token', async (req,res) =>{
     let schema = Joi.object({
         userLogin:{
             userPassword: Joi.string().required().min(3).max(150)

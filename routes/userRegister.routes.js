@@ -11,7 +11,7 @@ router.post('/new-user-register', async (req,res) => {
         let {error} = joiValidation(req.body);
     if(error){ return res.send(error.details[0].message);}
     let checkEmailExits = await userRegister.userRegisterModel.findOne({"userLogin.userEmail": req.body.userLogin.userEmail});
-    if(checkEmailExits){ return res.send('User already exists');}
+    if(checkEmailExits){ return res.send({exist:'User already exists'});}
     
         let newUser = userRegister.userRegisterModel({
             firstname: req.body.firstname,
