@@ -36,7 +36,7 @@ router.post('/reset-request', async (req,res) =>{
         from: "OnlineCart",
         to: req.body.userLogin.userEmail,
         subject: 'Reset your password',
-        text: 'Please click the following link to reset your password: localhost:4000/api/reset-password/' + token
+        text: 'Please click the following link to reset your password: localhost:4200/reset/' + token
     };
     transporter.sendMail(mailOptions, (err) =>{
         console.log(err.message);

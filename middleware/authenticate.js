@@ -6,7 +6,7 @@ function authenticate(req,res,next){
     if(!token){return res.send('Token not found, please login');}
     try{
         let decoded = jwt.verify(token, config.get('jwtKey'));
-        req.decodedToken=decoded;
+        req.userRegistration=decoded;
         next();
     }
     catch(ex){

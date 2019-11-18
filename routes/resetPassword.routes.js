@@ -14,15 +14,15 @@ router.post('/reset-password/:token', async (req,res) =>{
     if(error){ return res.send(error.details[0].message);}
     let newPass = req.body.userLogin.userPassword;
     let checkToken = await register.userRegisterModel.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}});
-    if(!checkToken){return res.send('Invalid reset token, please place request again');}
+    if(!checkToken){return res.send({error:'Request timed out, please place request again'});}
     let passCheck = await bcrypt.compare(newPass, checkToken.userLogin.userPassword);
-    if(passCheck){return res.send('Please do not use the same password');}
+    if(passCheck){return res.send({error:'Please do not use the same password'});}
     let salt = await bcrypt.genSalt(10);
     let newEncryPass= await bcrypt.hash(newPass, salt)
     checkToken.userLogin.userPassword = newEncryPass;
     checkToken.updateDate = Date.now();
     await checkToken.save();
-    return res.send('Password updated :)');
+    return res.send({success:'Password updated, try logging again :)'});
 });
 
 module.exports= router;

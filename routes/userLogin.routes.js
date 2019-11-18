@@ -28,9 +28,15 @@ router.post('/user-login', async (req,res) =>{
     }
     else{
         let token = checkEmail.userIdentity();
-        // res.header('x-auth-token', token).send('Login Successful');
-        res.status(200).send({token: token});       
+        res.header('x-auth-token', token).send({token: token});       
     }
+});
+
+//API for sending data of logged in user
+router.get('/me', auth,async (req,res) => {
+    let user = await userRegister.userRegisterModel.findById(req.userRegistration._id).select("-userLogin.userPassword");
+    if(!user){return res.send({Error: 'No Payload data found'});}
+    res.send(user);
 });
 
 //API to delete user with authentication and isAdmin middlewares
