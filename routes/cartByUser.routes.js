@@ -1,45 +1,25 @@
 const  express = require('express');
 const router = express.Router();
-const Joi = require('@hapi/joi');
-const userCart = require('../mongodb/userCartSchema');
-const product = require('../mongodb/productSchema');
 const user = require('../mongodb/userRegistration');
+const cart = require('../mongodb/cartSchema');
+const auth = require('../middleware/authenticate');
 
-router.post('/usercart', async (req,res) => {
-
-    let schema = Joi.object({
-        cartDetails:{
-            prodId: Joi.string().required(),
-            userEmail: Joi.string().required(),
-            quantity: Joi.number().required()
-        }
-    });
-
-    let {error} = schema.validate(req.body);
-    if (error){
-        return res.send(error.details[0].message);
-    }
+router.get('/usercart', auth,async (req,res) => {
 
     try{        
-        let userEml = await user.userRegisterModel.findOne({'userLogin.userEmail': req.body.cartDetails.userEmail});
-
+        let userEml = await user.userRegisterModel.findById(req.userRegistration._id).select("userLogin.userEmail");
+        console.log(userEml);
         if(!userEml){
             return res.send('User email does not exist!');
         }
 
-        let prod = await product.prodModel.findById(req.body.cartDetails.prodId).select('-_id');
-        // console.log(prod);
-        if(!prod){
-            return res.send('Product ID does not exist!');
+        let cartUserEmail = await cart.cartModel.find({userEmail: userEml.userLogin.userEmail});
+
+        if(!cartUserEmail){
+            return res.send('Something went wrong');
         }
 
-        let newItem = await userCart.userCartModel({
-            userEmail: userEml.userLogin.userEmail,
-            cartItem: prod
-        })
-    
-        let result = await newItem.save();
-        res.send({msg: `Item added to ${userEml.firstname}'s cart`, item: result});
+        res.send({data: cartUserEmail});
     }
     catch(ex){
         res.send(ex.message);
