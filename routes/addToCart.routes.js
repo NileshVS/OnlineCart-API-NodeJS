@@ -7,7 +7,7 @@ const auth = require('../middleware/authenticate');
 const user = require('../mongodb/userRegistration');
 
 router.post('/add-to-cart', auth,async (req,res) => {
-    let checkLogin = await user.userRegisterModel.findById(req.decodedToken._id).select("userLogin.userEmail");
+    let checkLogin = await user.userRegisterModel.findById(req.userRegistration._id).select("userLogin.userEmail");
     console.log(checkLogin);
     if(!checkLogin){
         return res.send('Please login first!');
@@ -25,8 +25,9 @@ router.post('/add-to-cart', auth,async (req,res) => {
     }
 
     try{
-        
-        let prod = await product.prodModel.findById(req.body.cartDetails.prodId);
+        let pId = req.body.cartDetails.prodId;
+        console.log(pId);
+        let prod = await product.prodModel.findById(pId);
 
         if(!prod){
             return res.send('Product ID does not exist!');
