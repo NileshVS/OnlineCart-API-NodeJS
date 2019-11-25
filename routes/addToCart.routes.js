@@ -8,7 +8,7 @@ const user = require('../mongodb/userRegistration');
 
 router.post('/add-to-cart', auth,async (req,res) => {
     let checkLogin = await user.userRegisterModel.findById(req.userRegistration._id).select("userLogin.userEmail");
-    console.log(checkLogin);
+    // console.log(checkLogin);
     if(!checkLogin){
         return res.send('Please login first!');
     } 
@@ -26,7 +26,7 @@ router.post('/add-to-cart', auth,async (req,res) => {
 
     try{
         let pId = req.body.cartDetails.prodId;
-        console.log(pId);
+        // console.log(pId);
         let prod = await product.prodModel.findById(pId);
 
         if(!prod){
@@ -36,6 +36,7 @@ router.post('/add-to-cart', auth,async (req,res) => {
         let newItem = await cart.cartModel({
             productId: req.body.cartDetails.prodId,
             name: prod.name,
+            productImage: prod.productImage,
             price: prod.price,
             quantity: req.body.cartDetails.quantity,
             totalPrice: (prod.price * req.body.cartDetails.quantity),

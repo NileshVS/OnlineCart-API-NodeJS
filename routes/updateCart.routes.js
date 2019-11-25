@@ -8,10 +8,7 @@ router.put('/update-cart/:id', async(req,res) =>{
 
     try{
         let schema = Joi.object({
-            cartDetails:{
-                prodId: Joi.string().required(),
                 quantity: Joi.number().required()
-            }
         });
     
         let {error} = schema.validate(req.body);
@@ -21,20 +18,19 @@ router.put('/update-cart/:id', async(req,res) =>{
 
         let cartItem = await cart.cartModel.findById(req.params.id);
         if(!cartItem){
-            return res.send('Something went wrong!');
+            return res.send({err1: 'Something went wrong!'});
         };
-        let prod = await product.prodModel.findById(req.body.cartDetails.prodId);
-        if(!prod){
-            return res.send('Product ID does not exist!');
-        }
-            cartItem.productId = req.body.cartDetails.prodId;
-            cartItem.name = prod.name;
-            cartItem.price = prod.price;
-            cartItem.quantity = req.body.cartDetails.quantity;
-            cartItem.totalPrice = (prod.price * req.body.cartDetails.quantity);
+        // let prod = await product.prodModel.findById(req.params.id);
+        // if(!prod){
+        //     return res.send({err2: 'Product ID does not exist!'});
+        // }
+
+            cartItem.quantity = req.body.quantity;
+            cartItem.totalPrice = cartItem.price * cartItem.quantity;
+            
         let result = await cartItem.save();
     
-        res.send({msg: 'Product updated', details: result});
+        res.send({success: 'Product updated', details: result});
     }
     catch(ex){
         res.send(ex.message);

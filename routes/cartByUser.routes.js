@@ -18,8 +18,8 @@ router.get('/usercart', auth,async (req,res) => {
         if(!cartUserEmail){
             return res.send('Something went wrong');
         }
-
-        res.send({data: cartUserEmail});
+        let cartCount = await cart.cartModel.find({userEmail: userEml.userLogin.userEmail}).count();
+        res.send({data: cartUserEmail, count: cartCount});
     }
     catch(ex){
         res.send(ex.message);
