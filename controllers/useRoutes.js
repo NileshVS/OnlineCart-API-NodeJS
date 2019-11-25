@@ -27,6 +27,7 @@ const allUserCart = require('../routes/allUserCart.routes');
 const categoryPagination = require('../routes/categoryPagination.routes');
 const subcategoryPagination = require('../routes/subcategoryPagination.routes');
 const deleteSubcategory = require('../routes/deleteSubcategoryById.routes');
+const deleteCartItem = require('../routes/deleteCart.routes');
 module.exports = (app) => {
     app.use(express.json());
     app.use(morgan('tiny'));
@@ -34,5 +35,5 @@ module.exports = (app) => {
     app.use('/api', [contact, userRegister, userLogin, resetReq, resetPass, allUsers, addCategory,
          allCategory, allSubCategory,findCatergory, deleteCategory, addProduct, updateProduct, deleteProduct, allProducts,
         productById, productPagination, addSubCat, addToCart, offerProducts, latestProducts, updateCart, cartByUsers,
-        allUserCart, categoryPagination, subcategoryPagination, deleteSubcategory]);
+        allUserCart, categoryPagination, subcategoryPagination, deleteSubcategory, deleteCartItem]);
 }
