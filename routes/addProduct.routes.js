@@ -7,12 +7,14 @@ const path = require('path');
 // const category = require('../mongodb/categorySchema');
 const subCategory = require('../mongodb/subCategorySchema');
 let imgPort = 'http://localhost:4000';
-let pathDir = path.join(__dirname, '../uploads')
+let pathDir = path.join(__dirname, '../uploads');
+// let dest= undefined;
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, pathDir);
     },
     filename: function (req, file, cb) {
+        // console.log(file.destination);
         cb(null, Date.now() + file.originalname);
     },
 });
@@ -31,7 +33,6 @@ let upload = multer({
     },
     fileFilter: fileFilter
 });
-
 
 router.post('/add-new-product', async (req,res) =>{
     // console.log(req.file);
@@ -67,8 +68,10 @@ router.post('/add-new-product', async (req,res) =>{
 });
 
 router.post('/image-upload', upload.single('imgUrl'), async (req,res)=> {
+    // let pathString = pathDir.replace(/\\/g,"/");
 	let newImage = new product.imageModel({
-		imgUrl: imgPort+ '/uploads/' + req.file.filename
+        imgUrl: imgPort+ '/uploads/' + req.file.filename,
+        imgDest: (pathDir + '/' + req.file.filename).replace(/\\/g,"/")
 	} )
 	
 	await newImage.save();

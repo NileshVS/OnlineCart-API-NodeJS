@@ -3,7 +3,8 @@ const category = require('../mongodb/categorySchema');
 const subCategory = require('../mongodb/subCategorySchema');
 
 let imgSchema = new mongoose.Schema({
-		imgUrl: {type: String}
+        imgUrl: {type: String},
+        imgDest: {type:String}
 });
 
 let prodSchema = new mongoose.Schema({
